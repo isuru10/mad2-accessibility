@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AccessibilityDemo</string>
+    <string name="profile_icon_description">User profile icon</string>
+    <string name="star_rating_label">Rating: %1\$s out of 5 stars</string>
+</resources>
