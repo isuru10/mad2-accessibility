@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
 //        enableEdgeToEdge()
         setContent {
             AccessibilityDemoTheme {
-                Exercise1_2Screen()
+                Exercise1_3Screen()
             }
         }
     }
@@ -295,6 +295,82 @@ fun Exercise1_2Screen() {
                         "4. Selecting a custom action will update the feedback above.",
                 style = MaterialTheme.typography.bodySmall
             )
+        }
+    }
+}
+
+@Composable
+fun LiveRegionCounter() {
+    // State to hold the current count
+    var count by remember { mutableIntStateOf(0) }
+
+    Column(
+        modifier = Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Total Items Added:",
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+
+        // 1. Live Region Text: This Text Composable is marked as a live region.
+        Text(
+            text = "$count items",
+            style = MaterialTheme.typography.displayLarge,
+            // TASK: Apply the Modifier.semantics block with liveRegion = LiveRegionMode.Polite
+            modifier = Modifier
+                .semantics {
+                    // This is the key: tells the screen reader to announce
+                    // this text when its content changes.
+                    liveRegion = LiveRegionMode.Assertive
+                }
+        )
+
+        Spacer(modifier = Modifier.padding(24.dp))
+
+        // Control buttons
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = { count = (count - 1).coerceAtLeast(0) }) {
+                Text("Remove")
+            }
+            Button(onClick = { count++ }) {
+                Text("Add Item")
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(24.dp))
+
+        Text(
+            text = "When an item is added or removed, TalkBack will announce the new count automatically without losing focus, thanks to LiveRegionMode.Polite.",
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+}
+
+@Composable
+fun Exercise1_3Screen() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {Text(
+            text = "Accessibility Exercise 1.3: Live Regions",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+
+            LiveRegionCounter()
         }
     }
 }
